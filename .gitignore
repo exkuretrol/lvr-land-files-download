@@ -1,2 +1,5 @@
 plvr
 lvr_lands*
+node_modules
+__pycache__
+
