@@ -107,10 +107,10 @@ class QuerySchema:
     token: str = ""  # get_token()
 
     @classmethod
-    def from_json(self, json_str: str):
+    def from_json(cls, json_str: str):
         d = json.loads(json_str)
         d["ptype"] = [int(i) for i in d["ptype"].split(",")]
-        return QuerySchema(**d)
+        return cls(**d)
 
     def to_json(self) -> str:
         """
