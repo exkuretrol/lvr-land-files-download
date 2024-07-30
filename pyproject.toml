@@ -1,18 +1,19 @@
 [tool.poetry]
-name = "plvr-download-files"
+name = "plvr"
 version = "0.1.0"
 description = ""
 authors = ["exkuretrol <33695301+exkuretrol@users.noreply.github.com>"]
 readme = "README.md"
-package-mode = false
+package-mode = true
 
 [tool.poetry.dependencies]
 python = "^3.12"
 request2 = "^0.2"
-ipython = "^8.26.0"
-pythonmonkey = "^0.7.1"
 rich = "^13.7.1"
 
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.26.0"
 
 [build-system]
 requires = ["poetry-core"]

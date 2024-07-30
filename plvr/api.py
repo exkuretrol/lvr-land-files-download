@@ -8,7 +8,7 @@ from typing import List, Literal, Optional
 from rich.logging import RichHandler
 
 logging.basicConfig(
-    level="NOTSET",
+    level="INFO",
     format="%(message)s",
     datefmt="[%X]",
     handlers=[RichHandler(rich_tracebacks=True)],
@@ -167,10 +167,76 @@ class QuerySchema:
         return json.dumps(d).replace(" ", "")
 
 
+@dataclass
+class PropertySchema:
+    """
+    Sample Output
+    {
+        'AA11': '商', 'AA12': '',
+        'a': '八里區頂罟一路０１２６號十五樓#八里區頂罟一路１２６號十五樓', 'b': '住宅大樓(11層含以上有電梯)', 'bn':
+        '', 'bs': '43.63%', 'city': 'F', 'commid': '', 'cp': '170', 'e': '113/02/26', 'el': '有', 'es': '56.13%', 'f':
+        '十五層/十五層', 'fi': '1', 'g': '', 'id': '38', 'j': '1', 'k': '1', 'l': '1', 'lat': 25.15229963985544,
+        'lon': 121.40149483305572, 'm': '有', 'mark': '', 'msg': '(總價-車位總價)/(總面積-車位總面積)', 'note':
+        '預售屋、或土地及建物分件登記案件;', 'p': '349,266', 'pimg': 'bt_05.png', 'pu': '住家用', 'punit': '1', 'r':
+        52, 'reid': '', 's': '36.20', 'sq': 'Ki7/jDq75hQyfNkKfLgOQLlaCQfYtnZL9Hmo2hW7qEw=', 't':
+        '房地(土地+建物)+車位', 'town': 'F32', 'tp': '11,530,000', 'tunit': '1', 'type': 'Biz', 'unit': '2', 'v':
+        '2房1廳1衛'
+    }
+    """
+
+    AA11: str
+    AA12: str
+    a: str
+    b: str
+    bn: str
+    bs: str
+    city: str
+    commid: str
+    cp: str
+    e: str
+    el: str
+    es: str
+    f: str
+    fi: str
+    g: str
+    id: str
+    j: str
+    k: str
+    l: str
+    lat: float
+    lon: float
+    m: str
+    mark: str
+    msg: str
+    note: str
+    p: str
+    pimg: str
+    pu: str
+    punit: str
+    r: int
+    reid: str
+    s: str
+    sq: str
+    t: str
+    town: str
+    tp: str
+    tunit: str
+    type: str
+    unit: str
+    v: str
+
+
 def aes_encrypt(data: str, key: str) -> str:
     import subprocess
+    from pathlib import Path
 
-    result = subprocess.run(["node", "aes.js", data, key], stdout=subprocess.PIPE)
+    node_script_path = Path(__file__).parent / "aes.js"
+    if not node_script_path.exists():
+        raise FileNotFoundError(f"Node script not found: {node_script_path}")
+
+    result = subprocess.run(
+        ["node", node_script_path, data, key], stdout=subprocess.PIPE
+    )
     return result.stdout.decode().strip()
 
 
@@ -189,8 +255,7 @@ class API:
 
     def encrypt_query(self) -> str:
         self.query.token = self.get_token()
-        log.debug(f"Query Dict: ")
-        log.debug(asdict(self.query))
+        log.info(f"Query Dict: {asdict(self.query)}")
         query_str = self.query.to_json()
 
         # hash by MD5

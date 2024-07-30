@@ -1,5 +1,5 @@
 {
-  "name": "plvr_download_files",
+  "name": "plvr",
   "version": "1.0.0",
   "description": "This Python script is designed to automate the download of PLVR land data from the official website. It uses the `requests` library to make HTTP requests and saves the data as ZIP files in a specified directory.",
   "main": "index.js",
