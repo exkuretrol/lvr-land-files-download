@@ -7,7 +7,7 @@ readme = "README.md"
 package-mode = true
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.10"
 request2 = "^0.2"
 rich = "^13.7.1"
 
